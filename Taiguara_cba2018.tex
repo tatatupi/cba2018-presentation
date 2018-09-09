@@ -24,7 +24,7 @@
 %\usetheme{Berlin}
 %\usetheme{Boadilla}
 %\usetheme{boxes}
-\usetheme{CambridgeUS}
+%\usetheme{CambridgeUS}
 %\usetheme{Copenhagen}
 %\usetheme{Darmstadt}
 %\usetheme{default}
@@ -44,6 +44,44 @@
 %\usetheme{Singapore}
 %\usetheme{Szeged}
 %\usetheme{Warsaw}
+
+
+% Customizações de Cores: fg significa cor do texto e bg é cor do fundo
+\setbeamercolor{normal text}{fg=black}
+\setbeamercolor{alerted text}{fg=red}
+\setbeamercolor{author}{fg=black}
+\setbeamercolor{institute}{fg=blue}
+\setbeamercolor{date}{fg=blue}
+\setbeamercolor{frametitle}{fg=white}
+\setbeamercolor{framesubtitle}{fg=white}
+\setbeamercolor{block title}{bg=red, fg=white}		%Cor do título
+\setbeamercolor{block body}{bg=gray, fg=darkgray}	%Cor do texto (bg= fundo; fg=tex
+%\usepackage{beamerthemeshadow} %Formatação do plano de fundo
+%\setbeamercovered{transparent} %Formatação do plano de fundo
+
+\usetheme[secheader]{Boadilla} 
+\usecolortheme{seahorse}
+
+
+\newcommand{\Real}{\mathbb{R}}
+\newcommand{\D}{\mathcal{D}}
+\newcommand{\Natural}{\mathbb{N}}
+\newcommand{\Integer}{\mathbb{Z}}
+\newcommand{\Complex}{\mathbb{C}}
+\newcommand{\C}{\mathcal{C}}
+\newcommand{\N}{\mathcal{N}}
+
+\newcommand{\T}{^{\scriptscriptstyle\rm T}}
+\font\bbfnt=msbm10
+\def\bbR{\mbox{\bbfnt R}}
+\def\bbN{\mbox{\bbfnt N}}
+\def\bbZ{\mbox{\bbfnt Z}}
+\renewcommand{\(}{\left(}
+\renewcommand{\)}{\right)}
+\renewcommand{\[}{\left[}
+\renewcommand{\]}{\right]}
+\newcommand{\SE}{\mathcal{E}}
+\newcommand{\isdef}{~\stackrel{\triangle}{=}~}
 
 \usepackage[brazil]{babel}
 \usepackage[utf8]{inputenc}
@@ -91,17 +129,34 @@
 
 \newtheorem{definicao}{}
 
-\addtobeamertemplate{frametitle}{}{%
-	\begin{textblock*}{100mm}(.83\textwidth,-0.83cm)
-		\includegraphics[height=0.6cm,width=2.07cm]{template/ufmg.png}
-	\end{textblock*}
-
-	\begin{textblock*}{100mm}(.70\textwidth,-0.95cm)
-	\includegraphics[height=0.92cm,width=1.29cm]{template/mac.png}
-	\end{textblock*}
+\setbeamercolor{title}{fg=red!70!black}
+\setbeamercolor{subtitle}{fg=black!100}
+\setbeamercolor{author}{fg=blue!50!black}
+\setbeamercolor{institute}{fg=blue!70!black}
+\setbeamercolor{frametitle}{fg=red!90!black}
+\setbeamercolor{framesubtitle}{fg=red!80!green!50}
+\titlegraphic{
+	\vspace{-0.5cm}
+	\includegraphics[width = 1.5cm]{ufmg-logo.png}
+	\hspace*{9cm}~~
+	\includegraphics[height=0.8cm]{macsin-logo.pdf}
 }
 
 
+
+%\addtobeamertemplate{frametitle}{}{%
+%	\begin{textblock*}{100mm}(.88\textwidth,-1.83cm)
+%		\includegraphics[height=0.6cm,width=2.07cm]{template/ufmg.png}
+%	\end{textblock*}
+%
+%	\begin{textblock*}{100mm}(.75\textwidth,-1.95cm)
+%	\includegraphics[height=0.92cm,width=1.29cm]{template/mac.png}
+%	\end{textblock*}
+%}
+%
+%\expandafter\def\expandafter\insertshorttitle\expandafter{%
+%	\insertshorttitle\hfill%
+%	\insertframenumber\,/\,\inserttotalframenumber}
 
 %\setbeamertemplate{footline}
 %{
@@ -172,7 +227,7 @@
 \setbeamertemplate{footline}{}
 \usebackgroundtemplate{\includegraphics[width=\paperwidth]{template/inicio.png}}%
 
-	\begin{frame}
+	\begin{frame}[plain]
 		\begin{textblock*}{100mm}(.65\textwidth,0.4cm)
 			\includegraphics[height=1.2cm,width=4.14cm]{template/ufmg.png}
 		\end{textblock*}
@@ -187,10 +242,10 @@
 		T.~Tupinambas, L.~Tôrres e B.~Teixeira
 			
 		\vspace{0.5cm}
-		Laboratório de Modelagem, Análise e Controle de Sistemas Não-Lineares\\
+		Laboratório de Modelagem, Análise e Controle de Sistemas Não-Lineares
 		(MACSIN)\\
-		Programa de Pós-Graduação em Engenharia Elétrica\\
-		Universidade Federal de Minas Gerais
+		Programa de Pós-Graduação em Engenharia Elétrica (PPGEE)\\
+		Universidade Federal de Minas Gerais (UFMG)
 	\end{frame}
 }
 \addtocounter{framenumber}{-1}
@@ -232,9 +287,44 @@
 %------------------------------------------------
 
 \begin{frame}
+\frametitle{Estimação de Estados}
+Considere o sistema dinâmico estocástico não-linear amostrado
+
+\begin{equation*}\label{eq:processo}
+\dot{x}(t)=f(x(t),u(t),w(t),t),
+\end{equation*}
+\begin{equation*}\label{eq:obs}
+y(t_k)=g(x(t_k),v(t_k),t_k),
+\end{equation*}
+\vspace{0.3cm}
+em que:
+\vspace{0.4cm}
+
+\begin{tabular}{l l}
+	\hfill
+	$x(t) \in \mathbb{R}^n$:  	& vetor de estados, \\
+	\hfill
+	$u(t) \in \mathbb{R}^p$:  	& vetor de entradas, \\
+	\hfill
+	$y(t_k) \in \mathbb{R}^m$ 	& vetor de observações, \\
+	\hfill
+	$w(t) \in \mathbb{R}^q$:	 	& ruído de processo, \\
+	\hfill
+	$v(t_k) \in \mathbb{R}^m$: 	& ruído de medição, \\
+	\hfill
+	$f$: 		& modelo de processo contínuo em $t$, \\
+	\hfill
+	$g$:  	 	& modelo de medição amostrado em $t_k$.
+\end{tabular}
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
 	\frametitle{Modelo de Amostragem}
 	
-	Em geral, considera-se que as observações são amostradas e disponibilizadas para o estimador a uma \textbf{taxa regular}.
+	Em geral, considera-se que os sinais são amostradas e disponibilizadas para o estimador a uma \textbf{taxa regular}.
 	
 	\vspace{0.5cm}
 	
@@ -274,6 +364,8 @@
 	\frametitle{Objetivos}
 	
 	Custos adicionais valem a pena?
+	\vspace{0.3cm}
+	
 	
 	\begin{definicao}	
 		\begin{itemize}
@@ -293,9 +385,10 @@
 \section{Formulação do Problema} 
 %------------------------------------------------
 
+%------------------------------------------------
+
 \begin{frame}
 	\frametitle{Formulação do Problema}
-	Considere o sistema dinâmico estocástico não-linear amostrado
 	
 	\begin{equation*}\label{eq:processo}
 	\dot{x}(t)=f(x(t),u(t),w(t),t),
@@ -303,35 +396,8 @@
 	\begin{equation*}\label{eq:obs}
 	y(t_k)=g(x(t_k),v(t_k),t_k),
 	\end{equation*}
-	\vspace{0.3cm}
-	em que:
-	\vspace{0.4cm}
+	\vspace{0.2cm}
 	
-	\begin{tabular}{l l}
-		\hfill
-		$x(t) \in \mathbb{R}^n$:  	& vetor de estados, \\
-		\hfill
-		$u(t) \in \mathbb{R}^p$:  	& vetor de entradas, \\
-		\hfill
-		$y(t_k) \in \mathbb{R}^m$ 	& vetor de observações, \\
-		\hfill
-		$w(t) \in \mathbb{R}^q$:	 	& ruído de processo, \\
-		\hfill
-		$v(t_k) \in \mathbb{R}^m$: 	& ruído de medição, \\
-		\hfill
-		$f$: 		& modelo de processo contínuo em $t$, \\
-		\hfill
-		$g$:  	 	& modelo de medição amostrado em $t_k$.
-	\end{tabular}
-
-\end{frame}
-
-%------------------------------------------------
-
-%------------------------------------------------
-
-\begin{frame}
-	\frametitle{Formulação do Problema}
 	Assume-se que:
 	
 	\begin{itemize}
@@ -341,7 +407,7 @@
 		\item $u(iT) \in \mathbb{R}^p$, $\forall i \geq 1$ são conhecidas
 	\end{itemize}
 	
-	\vspace{1cm}
+	\vspace{0.3cm}
 	
 	$\rightarrow$ Deseja-se estimar o estado $x(iT)$ de forma recursiva, em intervalos regularmente espaçados $T$.
 
@@ -507,47 +573,49 @@
 \begin{frame}
 	\frametitle{Descrição do sistema}
 	Considere o sistema de um robô móvel não-holonômico:
-	\begin{equation*}
-		\begin{split}
+
+	\begin{minipage}{.70\textwidth}
+		\begin{equation*}
+					\begin{split}
 		\dot{p}_{\textrm{x}} & = v\cos (\theta),\\
 		\dot{p}_{\textrm{y}} & = v\sin (\theta),\\
 		\dot{\theta}  & = u_1(t),\\
 		\dot{v} & = u_2(t),
 		\end{split}
-	\end{equation*}
-	
-	em que:
-	
-	\centering
-
-	\begin{tabular}{l l}
-		\hfill
-		$p_{\textrm{x}}$ e $p_{\textrm{y}}$:	& coordenadas de posição, \\
-		\hfill
-		$\theta$:  							& orientação angular, \\
-		\hfill
-		$v$:								& velocidade linear, \\
-		\hfill
-		$u_1$:	 							& entrada: velocidade angular ($\omega$), \\
-		\hfill
-		$u_2$:	 							& entrada: aceleração linear ($a$)
-	\end{tabular}
-	
-
-\end{frame}
-
-%------------------------------------------------
-
-\begin{frame}
-	\frametitle{Descrição do sistema}
-	
+		\end{equation*}
+		
+			
+		em que:
+		
+		\vspace{0.2cm}
+		
+		\centering
+		
+		\begin{tabular}{l l}
+			\hfill
+			$p_{\textrm{x}}$ e $p_{\textrm{y}}$:	& coordenadas de posição, \\
+			\hfill
+			$\theta$:  							& orientação angular, \\
+			\hfill
+			$v$:								& velocidade linear, \\
+			\hfill
+			$u_1$:	 							& entrada: velocidade angular ($\omega$), \\
+			\hfill
+			$u_2$:	 							& entrada: aceleração linear ($a$)
+		\end{tabular}
+		
+	\end{minipage}%
+	\begin{minipage}{.3\textwidth}
 	\begin{figure}
 		\centering
-		\caption{Robô móvel não-holomônico}
-		\includegraphics[width=0.5\textwidth]{images/Nonholomonic-robot.pdf}
+		\includegraphics[width=1\textwidth]{images/Nonholomonic-robot.pdf}
 	\end{figure}
-	
+\end{minipage}
+
+
+
 \end{frame}
+
 %------------------------------------------------
 
 
@@ -728,12 +796,15 @@
 
 \begin{frame}
 	\frametitle{Conclusões}
-	A abordagem adotada pode ser empregada em tomadas de decisão sobre o investimento em sincronização ou capacidade computacional. O investimento pode não valer a pena para:
+Abordagem útil para a tomada de decisão sobre investir em sincronização e capacidade computacional.
+\vspace{0.2cm}
+
+O investimento pode não valer a pena para:
 	
 	\begin{itemize}
-		\item Sistemas cujo modelo de processo apresenta pouco ruído em relação ao ruído de observações 
-		\item Sensores de observação com alta frequência de amostragem em relação à dinâmica do sistema
-		\item Sensores dos sinais de entrada com alta frequência de amostragem em relação à frequência dos sensores de observação
+		\item Sistemas cujo \textbf{modelo de processo apresenta pouco ruído} em relação ao ruído de observações 
+		\item Sensores de \textbf{observação} com \textbf{alta frequência de amostragem} em relação à dinâmica do sistema
+		\item Sensores dos \textbf{sinais de entrada} com \textbf{alta frequência de amostragem} em relação à frequência dos sensores de observação
 	\end{itemize}
 
 \end{frame}
@@ -741,20 +812,10 @@
 %------------------------------------------------
 
 
-%\section{Referências}
-{
-\setbeamertemplate{footline}{}
-\begin{frame}{Bibliografia}
-\frametitle{Bibliografia}
-\bibliography{referencias}
-\end{frame}
-\addtocounter{framenumber}{-1}
-}
-
 {
 \setbeamertemplate{footline}{}
 \usebackgroundtemplate{\includegraphics[width=\paperwidth]{template/fim.png}}%
-\begin{frame}
+\begin{frame}[plain]
 \centering
 \Large
 \textbf{Obrigado!}
