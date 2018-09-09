@@ -91,7 +91,7 @@
 \usepackage{xspace}
 \usepackage{enumerate}
 \usepackage{amsthm}
-\usepackage[alf]{abntex2cite}
+%\usepackage[alf]{abntex2cite}
 %\usepackage{subcaption}
 %\usepgfplotslibrary{dateplot}
 \usepackage{graphicx}
@@ -111,6 +111,10 @@
 \usepackage{pdfpages}
 \usepackage{epstopdf}
 \usepackage{textpos}
+
+
+\usepackage[citestyle=authortitle]{biblatex}
+\addbibresource{referencias.bib}
 
 \usepackage{adjustbox}
 \usepackage{tikz}
@@ -273,13 +277,13 @@
 \begin{frame}
 	\frametitle{Estimação de Estados}
 	\begin{definicao}
-		Determinar as \textbf{pdfs} dos estados de um sistema, baseado nas observações passadas: $\rho(x_k | y_1,...,y_k)$ \\
+		Determinar as \textbf{pdfs} dos estados de um sistema, baseado no modelo de processo e nas observações passadas: $\rho(x_k | y_1,...,y_k)$ \\
 	\end{definicao}
 	
 	\begin{figure}
 		\centering
-		\caption{Modelo de predição-correção}
-		\includegraphics[width=0.5\textwidth]{images/pdf-propagacao.png}
+
+		\includegraphics[width=0.75\textwidth]{images/pdf-propagacao2.jpg}
 	\end{figure}
 
 \end{frame}
@@ -382,13 +386,13 @@ em que:
 %------------------------------------------------
 
 %------------------------------------------------SECTION---------------------------------
-\section{Formulação do Problema} 
+\subsection{Formulação do Problema} 
 %------------------------------------------------
 
 %------------------------------------------------
 
 \begin{frame}
-	\frametitle{Formulação do Problema}
+	\frametitle{Formulação do Problema  - Amostragem Irregular}
 	
 	\begin{equation*}\label{eq:processo}
 	\dot{x}(t)=f(x(t),u(t),w(t),t),
@@ -396,18 +400,20 @@ em que:
 	\begin{equation*}\label{eq:obs}
 	y(t_k)=g(x(t_k),v(t_k),t_k),
 	\end{equation*}
-	\vspace{0.2cm}
+
 	
 	Assume-se que:
 	
 	\begin{itemize}
-		\item $\forall k \geq 1$, $y(t_k) \in \mathbb{R}^m$ e $v(t_k) \in \mathbb{R}^r$ são conhecidos,
-		\item $t_k$, $\forall k \in \mathbb{N^+}$, são ordenados ($t_{k+1}>t_k,\forall k \in \mathbb{N^+}$) e definidos pelos intervalos de tempo $h_0 \triangleq t_1$, $h_k \triangleq t_k-t_{k-1}, \ \forall k \geq 1$
-		\item $u(t) \in \mathbb{R}^p$ são medidas em intervalos regularmente espaçados $T$ 
-		\item $u(iT) \in \mathbb{R}^p$, $\forall i \geq 1$ são conhecidas
+		\item $\forall k \geq 1$, $y(t_k) \in \mathbb{R}^m$ é conhecido,
+		\item \textbf{$t_k$, $\forall k \in \mathbb{N^+}$, são ordenados e definidos pelos intervalos de tempo $h_0 \triangleq t_1$, $h_k \triangleq t_k-t_{k-1}, \ \forall k \geq 1$,}
+		\item $E[v(t_k)]=0$ e $E[v(t_k)v(t_k)^T]=R_{t_k}$,
+		\item $u(t) \in \mathbb{R}^p$ são medidas em intervalos regularmente espaçados $T$,
+		\item $u(iT) \in \mathbb{R}^p$, $\forall i \geq 1$ são conhecidas, e
+		\item $E[w(t_k)]=0$ e $E[w(t_k)w(t_k)^T]=Q_k$.
 	\end{itemize}
 	
-	\vspace{0.3cm}
+	\vspace{0.25cm}
 	
 	$\rightarrow$ Deseja-se estimar o estado $x(iT)$ de forma recursiva, em intervalos regularmente espaçados $T$.
 
@@ -416,8 +422,8 @@ em que:
 %------------------------------------------------
 
 \begin{frame}
-	\frametitle{Formulação do Problema}
-	Modelo de Amostragem Irregular:
+	\frametitle{Formulação do Problema - Amostragem Irregular}
+	Modelo de amostragem irregular das \textbf{observações}:
 	
 	\begin{definicao}
 		Os instantes de medição $t_k$ são dados por um processo aleatório de Poisson:
@@ -433,7 +439,7 @@ em que:
 	
 	\small
 	\centering
-	\textit{Esse modelo caracteriza uma aplicação comum para um sistema com rede de sensores dessincronizados \cite{Micheli2002}}
+	\textit{Esse modelo caracteriza uma aplicação comum para um sistema com rede de sensores dessincronizados} \autocite{Micheli2002}
 
 \end{frame}
 
@@ -442,27 +448,28 @@ em que:
 %------------------------------------------------SECTION---------------------------------
 \section{Metodologia} 
 
+\subsection{Método de Estimação}
 
 %------------------------------------------------
 
 \begin{frame}
 	\frametitle{Método de Estimação}
 	
-	Filtro de Kalman \textit{Unscented} (UKF) discreto \cite{Julier2004}
+	Filtro de Kalman \textit{Unscented} (UKF) discreto \autocite{Julier2004}
 	
 	\vspace{0.25cm}
 	\begin{itemize}
-		\item Discretização em instantes variáveis (com carimbo de tempo):	
-		\begin{align*}
-		&x(t^*_j)=f_{\textrm{d}}(x(t^*_{j-1}),u(t^*_{j-1}),w(t^*_{j-1}),t^*_{j-1}),\\
-		&t^*_j= t^*_{j-1} + \delta t^*_j, \quad  t^*_0=0
-		\end{align*}
-		
-		\vspace{0.25cm}
-		\item Discretização em instantes regulares (sem carimbo de tempo):
+		\item Discretização em \textbf{instantes regulares} (sem carimbo de tempo):
+		\hfill
 		\begin{align*}
 		&x_i=f^*_{\textrm{d}}(x_{i-1},u_{i-1},w_{i-1},i),\\
-		&t=iT.
+		&t=iT, \quad \delta_{t_i} = T
+		\end{align*}
+		\vspace{0.15cm}
+		\item Discretização em \textbf{instantes variáveis} (com carimbo de tempo):
+		\begin{align*}
+		&x(t^*_j)=f_{\textrm{d}}(x(t^*_{j-1}),u(t^*_{j-1}),w(t^*_{j-1}),t^*_{j-1}),\\
+		&\delta t^*_j = t^*_j - t^*_{j-1} , \quad  t^*_0=0
 		\end{align*}
 		
 	\end{itemize}
@@ -505,9 +512,10 @@ em que:
 		\end{itemize}
 	\end{enumerate}
 	
-	\textit{Passos de discretização são sempre $\delta t = T$}
+	\vspace{0.2cm}
+	$\rightarrow$ \textit{Passos de discretização são sempre $\delta t = T$}
 
-\end{frame}
+\end{frame} 
 
 %------------------------------------------------
 
@@ -533,7 +541,7 @@ em que:
 			
 			\node (pro1) [process, below right of=dec1, yshift=-0.7cm, xshift=0.25cm][text width=3cm,align=center]{Calcula \\ $\delta t^*_{j} = iT - t^*_{j-1}$ \\ $t^*_{j} = t^*_{j-1} + \delta t^*_{j}$};
 			
-			\node (pro12) [process, below of=pro1][text width=3cm,align=center, yshift=0.5cm]{Etapa de Predição};
+			\node (pro12) [process, below of=pro1][text width=3cm,align=center, yshift=0.5cm]{Etapa de Predição, utilizando ZOH};
 			
 			\node (pro2) [process, below left of=dec1,  yshift=-0.7cm, xshift=-0.25cm][text width=3cm,align=center]{Calcula \\ $\delta t^*_{j} = t_k - t^*_{j-1}$ \\ $t^*_{j} = t^*_{j-1} + \delta t^*_{j}$};
 			
@@ -666,14 +674,15 @@ em que:
 	\item $\delta t_{\textrm{sim}} = 10^{-4}$
 	\vspace{0.25cm}
 	\item $h_k$ calculado usando $\textrm{exprnd()}$ do MatLab\texttrademark e aproximado entre os 600.000 pontos de simulação
-	\vspace{0.25cm}
-	\item 100 realizações foram realizadas para cada cenário de simulação. A média e o IC 95\% são apresentados
-	\vspace{0.25cm}
+		\vspace{0.25cm}
 	\item Índice de desempenho utilizado:
 	
 	\begin{equation*}
 	J = \frac{ \sum_{i=1}^N \sqrt{(\hat{p}_{\textrm{x},i}-p_{\textrm{x},i})^2+(\hat{p}_{\textrm{y},i}-p_{\textrm{y},i})^2}}{N}
 	\end{equation*}
+	\vspace{0.25cm}
+	\item 100 realizações foram realizadas para cada cenário de simulação. A média e o IC 95\% são apresentados
+
 	
 \end{itemize}
 
@@ -692,11 +701,23 @@ em que:
 %------------------------------------------------
 
 \begin{frame}
-\frametitle{Exemplo de Realização}
+\frametitle{Exemplo de Realização - Deslocamento do Robô}
 
 \begin{figure}
 	\centering
 	\includegraphics[width=0.75\textwidth]{images/exemplo_03_30db_desloc.eps}
+\end{figure}
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Exemplo de Realização - Evolução do Índice $J$}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.75\textwidth]{images/J_umarealizacao.eps}
 \end{figure}
 
 \end{frame}
