@@ -282,7 +282,6 @@
 	
 	\begin{figure}
 		\centering
-
 		\includegraphics[width=0.75\textwidth]{images/pdf-propagacao2.jpg}
 	\end{figure}
 
@@ -642,11 +641,9 @@ em que:
 	\begin{bmatrix}
 	p_{\textrm{x}}(t_k) \\
 	p_{\textrm{y}}(t_k)
-	\end{bmatrix}+v(t_k),
+	\end{bmatrix}+v(t_k), \  \ v(t_k) \sim \mathcal{N} (0,R_{t_k}).
 	\end{equation*}
-	\begin{equation*}
-	v(t_k) \sim \mathcal{N} (0,R_{t_k}).
-	\end{equation*}
+
 	
 	\vspace{0.25cm}
 	Vetor de entradas:
@@ -654,10 +651,7 @@ em que:
 	u_i = [\omega_i\ a_i]^T,
 	\end{equation*}
 	\begin{equation*}
-	u_i = \tilde{u}_i - w_i,
-	\end{equation*}
-	\begin{equation*}
-	w \sim \mathcal{N} (0, Q_i).
+	u_i = \tilde{u}_i - w_i, \ \ w \sim \mathcal{N} (0, Q_i).
 	\end{equation*}
 
 

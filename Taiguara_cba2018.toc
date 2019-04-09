@@ -1,0 +1,24 @@
+\boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
+\babel@toc {brazil}{}
+\defcounter {refsection}{0}\relax 
+\beamer@sectionintoc {1}{Introdu\IeC {\c c}\IeC {\~a}o}{3}{0}{1}
+\defcounter {refsection}{0}\relax 
+\beamer@subsectionintoc {1}{1}{Motiva\IeC {\c c}\IeC {\~a}o e Objetivos}{4}{0}{1}
+\defcounter {refsection}{0}\relax 
+\beamer@subsectionintoc {1}{2}{Formula\IeC {\c c}\IeC {\~a}o do Problema}{13}{0}{1}
+\defcounter {refsection}{0}\relax 
+\beamer@sectionintoc {2}{Metodologia}{15}{0}{2}
+\defcounter {refsection}{0}\relax 
+\beamer@subsectionintoc {2}{1}{M\IeC {\'e}todo de Estima\IeC {\c c}\IeC {\~a}o}{16}{0}{2}
+\defcounter {refsection}{0}\relax 
+\beamer@subsectionintoc {2}{2}{Sem carimbo de tempo}{18}{0}{2}
+\defcounter {refsection}{0}\relax 
+\beamer@subsectionintoc {2}{3}{Com carimbo de tempo}{19}{0}{2}
+\defcounter {refsection}{0}\relax 
+\beamer@sectionintoc {3}{Resultados Simulados}{20}{0}{3}
+\defcounter {refsection}{0}\relax 
+\beamer@subsectionintoc {3}{1}{Descri\IeC {\c c}\IeC {\~a}o do Sistema}{21}{0}{3}
+\defcounter {refsection}{0}\relax 
+\beamer@subsectionintoc {3}{2}{Resultados}{27}{0}{3}
+\defcounter {refsection}{0}\relax 
+\beamer@sectionintoc {4}{Conclus\IeC {\~o}es}{31}{0}{4}
